@@ -78,9 +78,7 @@ while game.game_on:
 
         if agent.reward != 0: print(agent.reward)
 
-    img = game.generate_playground_image()
-    cv2.imshow('test', img)
-    cv2.waitKey(15)
+    game.render_simulation(sensors=False, actions=False)
 
 print(1000 / (time.time() - t1))
 game.terminate()

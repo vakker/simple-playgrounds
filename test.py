@@ -12,6 +12,7 @@ from flatland.agents import agent
 from flatland.default_parameters.agents import *
 
 agent_params = {
+    'name': 'Agent 1',
     'frame': {
         'type': 'forward',
         'params': {
@@ -66,19 +67,9 @@ while game.game_on:
     game.update_observations()
 
     #     for ent in game.playground.entities: print(ent, ent.is_initial_entity)
+        
 
-    for agent in game.agents:
-
-        observations = agent.observations
-
-        for obs in observations:
-            im = cv2.resize(observations[obs], (512, 50), interpolation=cv2.INTER_NEAREST)
-            cv2.imshow(obs, im)
-            cv2.waitKey(1)
-
-        if agent.reward != 0: print(agent.reward)
-
-    game.render_simulation(sensors=False, actions=False)
+    game.render_simulation(sensors=True, actions=False)
 
 print(1000 / (time.time() - t1))
 game.terminate()

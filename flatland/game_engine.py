@@ -165,7 +165,15 @@ class Engine():
         cv2.waitKey(15)
 
         if sensors:
-            pass
+
+            for agent in self.agents:
+
+                observations = agent.observations
+
+                for obs in observations:
+                    im = cv2.resize(observations[obs], (512, 50), interpolation=cv2.INTER_NEAREST)
+                    cv2.imshow(agent.name + ' / Observation: ' + obs, im)
+                    cv2.waitKey(1)
 
         if actions:
             pass
@@ -175,7 +183,7 @@ class Engine():
     def game_reset(self):
 
         '''
-        Resets the simuation.
+        Resets the simulation.
         '''
 
 

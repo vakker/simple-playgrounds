@@ -3,6 +3,8 @@ from pygame.locals import K_q
 from flatland.utils.config import *
 import time
 import cv2
+import numpy as np
+import matplotlib.pyplot as plt
 
 import os
 # Center the pygame window and make it pop up
@@ -136,13 +138,17 @@ class Engine():
 
         return False
 
-    def generate_playground_image(self):
+    def generate_playground_image(self, draw=True):
 
         '''
-        Creates the image corresponding to the simulation's state.
+        Creates the image corresponding to the simulation state.
         '''
 
         img = self.playground.generate_playground_image(draw_interaction=True)
+        if draw:
+            cv2.imshow('Flatland Simulation', img)
+            cv2.waitKey(15)
+
         return img
 
     """def display_full_scene(self):
@@ -156,27 +162,21 @@ class Engine():
     def render_simulation(self, sensors=True, actions=True):
 
         '''
-        Displays the simulation in a new window.
+        Displays the simulation, sensors and actions in a new window. 
         '''
 
 
-        img = self.generate_playground_image()
-        cv2.imshow('Flatland Simulation', img)
-        cv2.waitKey(15)
+        self.generate_playground_image(draw=True)
 
+        #Draw sensors for each agent
         if sensors:
-
             for agent in self.agents:
+                agent.draw_sensors()
 
-                observations = agent.observations
-
-                for obs in observations:
-                    im = cv2.resize(observations[obs], (512, 50), interpolation=cv2.INTER_NEAREST)
-                    cv2.imshow(agent.name + ' / Observation: ' + obs, im)
-                    cv2.waitKey(1)
-
+        #Draw actions for each agent
         if actions:
-            pass
+            for agent in self.agents:
+                agent.draw_actions()
 
 
 

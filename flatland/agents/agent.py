@@ -8,6 +8,10 @@ from .controllers import controller
 from .frames import frame
 from ..default_parameters.agents import *
 
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 class Agent():
 
@@ -126,6 +130,33 @@ class Agent():
         self.is_grasping = False
         self.grasped = []
         self.is_holding = False
+
+
+    def draw_sensors(self):
+        observations = self.observations
+
+        for obs in observations:
+            im = cv2.resize(observations[obs], (512, 50), interpolation=cv2.INTER_NEAREST)
+            cv2.imshow(self.name + ' / Observation: ' + obs, im)
+            cv2.waitKey(1)
+
+    def draw_actions(self):
+        actions = [[k,int(v)] for k,v in self.get_controller_actions().items()]
+
+        fig, ax = plt.subplots()
+        plt.ylim([-1,1])
+        plt.bar(range(len(actions)), [x[1] for x in actions])
+        plt.xticks(range(len(actions)), [x[0] for x in actions])
+        plt.tick_params(axis='x', labelsize=7)
+
+        fig.canvas.draw()
+        # convert canvas to image
+        img = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='')
+        img  = img.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+        # img is rgb, convert to opencv's default bgr
+        img = cv2.cvtColor(img,cv2.COLOR_RGB2BGR)
+        cv2.imshow(self.name + ' / Actions.', img)
+        cv2.waitKey(1)
 
 
 

@@ -24,6 +24,8 @@ class Agent():
             self.name =  custom_config.get('name')
         else:
             self.name = 'agent_' + str(type(self).index_name)
+            #WARNING DEBUG Doesn't work when agents have different class names.
+            #Prey, Predator : agent_0 for both. => include class name in index
             type(self).index_name += 1
 
         # Metabolism

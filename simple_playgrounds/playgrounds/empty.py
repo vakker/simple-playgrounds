@@ -53,7 +53,7 @@ class ConnectedRooms2D(Playground):
         else:
             self.scene_entities = all_walls
 
-        super(ConnectedRooms2D, self).__init__(size=size)
+        super(ConnectedRooms2D, self).__init__(size=size, gravity=kwargs.get('gravity'))
 
     def _compute_area_rooms(self):
 

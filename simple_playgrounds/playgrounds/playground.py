@@ -38,11 +38,12 @@ class Playground(ABC):
 
     scene_entities = []
 
-    def __init__(self, size):
+    def __init__(self, size, gravity=(0, 0)):
 
         # Generate Scene
         self.size = size
         self._width, self._length = self.size
+        self._gravity = gravity
 
         # Initialization of the pymunk space, modelling all the physics
         self.space = self._initialize_space()
@@ -89,8 +90,7 @@ class Playground(ABC):
 
         return default_config[key]
 
-    @staticmethod
-    def _initialize_space():
+    def _initialize_space(self):
         """ Method to initialize Pymunk empty space for 2D physics.
 
         Returns: Pymunk Space
@@ -98,9 +98,9 @@ class Playground(ABC):
         """
 
         space = pymunk.Space()
-        space.gravity = pymunk.Vec2d(0., 0.)
+        space.gravity = pymunk.Vec2d(self._gravity)
         space.damping = SPACE_DAMPING
-        
+
         return space
 
     def update(self, steps):
@@ -677,4 +677,3 @@ class PlaygroundRegister:
     def filter(cls, name):
 
         return [pg for name_pg, pg in cls.playgrounds.items() if name in name_pg]
-
